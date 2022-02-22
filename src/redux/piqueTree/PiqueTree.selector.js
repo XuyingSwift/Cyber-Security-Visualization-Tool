@@ -46,3 +46,8 @@ export const selectQuarters = createSelector(
     [piqueTree],
     piqueTree => piqueTree.quarters
 )
+
+export const selectQFiles = createSelector(
+    [piqueTree],
+    piqueTree => piqueTree.QFiles
+)

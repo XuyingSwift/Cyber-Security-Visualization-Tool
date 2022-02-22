@@ -8,7 +8,8 @@ const PiqueTreeActionTypes = {
     REMOVE_FILE: 'REMOVE_FILE',
     SET_VERSIONS: 'SET_VERSIONS',
     SET_RISK_LIST: 'SET_RISK_LIST',
-    SET_QUARTERS: 'SET_QUARTERS'
+    SET_QUARTERS: 'SET_QUARTERS',
+    SET_QFILES: 'SET_QFILES'
 }
 
 export default PiqueTreeActionTypes;

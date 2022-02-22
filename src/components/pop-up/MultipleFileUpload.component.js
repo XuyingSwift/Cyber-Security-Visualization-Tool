@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import {  setProjects, setQuarters } from '../../redux/piqueTree/PiqueTree.actions';
+import {  setProjects, setQFiles, setQuarters } from '../../redux/piqueTree/PiqueTree.actions';
 import { readAllFiles } from '../../utils/fileUpload.utils';
 
 import { LoaderWrapper, Label, Input, SubmitButton, ResetButton} from './MultipleFileUpload.styles';
@@ -14,7 +14,7 @@ import { useAlert } from 'react-alert'
 
 
 
-const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => {
+const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, setQFiles}) => {
     const alert = useAlert();
     const [progress, setProcess] = React.useState(0)
     const [quarterNumber, setQuarterNumber] = React.useState('');
@@ -22,13 +22,13 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => 
     const [submitting, setSubmitting] = React.useState(false);
     const [file, setFile] = React.useState(null);
 
-
     const handleUpload = async (e) => {
         let allFiles = [];
         [...e.target.files].filter(file => file.size !== 0).map(file=> allFiles.push(file));
         const results = await readAllFiles(allFiles, setProcess);
+        console.log("shahhahahh", results);
         setQuarterFiles(results)
-        setFile(results.pop());
+        setFile(results[results.length -1]);
     }
     console.log("filesss", quarterFiles);
        // onChange to handle version input
@@ -52,8 +52,6 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => 
         const checker = target.every(f => arr.includes(f));
         return checker;
     }
-
-    console.log("repeated file", checkFileInProjects(projects, quarterFiles));
 
     //validates inputs
     const handleValidation = () => {
@@ -141,7 +139,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
     setProjects: data => dispatch(setProjects(data)),
-    setQuarters: data => dispatch(setQuarters(data))
+    setQuarters: data => dispatch(setQuarters(data)),
+    setQFiles: data => dispatch(setQFiles(data))
 })
 
 

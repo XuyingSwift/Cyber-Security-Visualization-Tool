@@ -7,7 +7,7 @@ import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
 import { createStructuredSelector } from 'reselect';
-import { selectProjects, selectRiskList } from '../../redux/piqueTree/PiqueTree.selector';
+import { selectProjects, selectQuarters, selectRiskList } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 import {IoSkullOutline} from 'react-icons/io5'
@@ -17,7 +17,7 @@ import {RiSecurePaymentLine} from 'react-icons/ri'
 import {CgDanger} from 'react-icons/cg';
 
 
-const Dashboard = ({projects, riskList}) => {
+const Dashboard = ({projects, riskList, quarters}) => {
     const riskLevelOptions = [   
         {
             label: 'Severe',
@@ -65,6 +65,64 @@ const Dashboard = ({projects, riskList}) => {
 
     console.log("dashboard", projects)
 
+    const getTitle = () => {
+        let lineChartTitle = '';
+        projects.map((file, index) => lineChartTitle = file.fileContent.name)
+        return lineChartTitle;
+    }
+    const getTableChartOptions = () => {
+        let options = {
+            title: getTitle(),
+            curveType: "function",
+            legend: { position: "bottom" },
+            allowHtml: true,
+            width: '100%', 
+            height: '90%',
+        }
+        return options;
+    }
+    const getTableChartData = () => {
+        let data = [];
+        let score = [];
+        score.push("Score");
+        score = [...score, ...quarters];
+
+        let qFiles = [];
+        qFiles = projects.filter(file => file.QuarterNumber != null);
+        let TQIS = [];
+        TQIS.push("TQI")
+        qFiles.map(file => TQIS.push({v:file.fileContent.value}));
+
+        let arr1 = [];
+        arr1.push(qFiles[0].fileContent.children[0].name);
+        qFiles.map(file => arr1.push({v:file.fileContent.children[0].value}));
+
+        let arr2 = [];
+        arr2.push(qFiles[0].fileContent.children[1].name);
+        qFiles.map(file => arr1.push({v:file.fileContent.children[1].value}));
+
+        let arr3 = [];
+        arr3.push(qFiles[0].fileContent.children[2].name);
+        qFiles.map(file => arr1.push({v:file.fileContent.children[2].value}));
+
+        let arr4 = [];
+        arr4.push(qFiles[0].fileContent.children[3].name);
+        qFiles.map(file => arr1.push({v:file.fileContent.children[3].value}));
+
+        let arr5 = [];
+        arr5.push(qFiles[0].fileContent.children[4].name);
+        qFiles.map(file => arr1.push({v:file.fileContent.children[4].value}));
+
+        let arr6 = [];
+        arr6.push(qFiles[0].fileContent.children[5].name);
+        qFiles.map(file => arr1.push({v:file.fileContent.children[5].value}));
+
+        data.push(score, TQIS, arr1, arr2, arr3, arr4, arr5, arr6);
+
+        return data;
+
+    }
+
     return (
         <DashboardGrid>
             <MainHeader
@@ -103,8 +161,8 @@ const Dashboard = ({projects, riskList}) => {
                     <PiqueChart
                         width={TableChartProps.width}
                         height={TableChartProps.height}
-                        data={TableChartProps.inputData}
-                        options={TableChartProps.options}
+                        data={getTableChartData()}
+                        options={getTableChartOptions()}
                         chartType={TableChartProps.chartType}
                         showButton={TableChartProps.showButton}
                     />
@@ -116,7 +174,8 @@ const Dashboard = ({projects, riskList}) => {
 
 const mapStateToProps = createStructuredSelector({
     projects: selectProjects,
-    riskList: selectRiskList
+    riskList: selectRiskList,
+    quarters: selectQuarters
 })
 
 export default connect(mapStateToProps)(Dashboard)
