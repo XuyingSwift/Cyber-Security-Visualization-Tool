@@ -59,7 +59,6 @@
                 return {
                         "fileName": file.name,
                         "fileContent": fileContent,
-                        "versionNumber": index + 1
                     }
                 })
             );
