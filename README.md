@@ -7,7 +7,7 @@ An application built with React, Redux, JavaScript, HTML, and CSS used to visual
 * Components
 * Screenshots
 * Technologies
-* Demo-Link
+* Demo-Link [Download Demo](https://github.com/XuyingSwift/Cyber-Security-Visualization-Tool/blob/main/public/images/Pique-model-visualizer.mp4)
 * Setup
 
 
